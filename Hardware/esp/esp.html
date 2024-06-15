@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>LED and Servo Control</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>LED and Servo Control</h2>
+    <button onclick="turnOnLED()">Turn On Light</button>
+    <button onclick="turnOffLED()">Turn Off Light</button>
+    <button onclick="controlServo()">Control Servo</button>
+
+    <script>
+        function turnOnLED() {
+            sendRequest("/turnOnLED");
+        }
+
+        function turnOffLED() {
+            sendRequest("/turnOffLED");
+        }
+
+        function controlServo() {
+            sendRequest("/controlServo");
+        }
+
+        function sendRequest(endpoint) {
+            // Send a request to the ESP32
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", endpoint, true);
+            xhttp.send();
+        }
+    </script>
+</body>
+
+</html>
