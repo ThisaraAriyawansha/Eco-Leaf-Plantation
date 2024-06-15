@@ -49,5 +49,5 @@ Eco Leaf Plantation is a web application designed to streamline and optimize the
 
 ## Contact
 
-For any questions or support, please contact the project maintainer at [youremail@example.com](mailto:youremail@example.com).
+For any questions or support,  please contact [Thisara](mailto:Thisara.a2001@gmail.com).
 
