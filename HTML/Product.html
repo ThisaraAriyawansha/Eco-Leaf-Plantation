@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>PRODUCT</title>
+    <style type="text/css">
+        body {
+            font-family: 'Californian FB', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2 {
+            text-align: center;
+            font-family: 'Californian FB', sans-serif;
+        }
+
+        header {
+            background-color: #0a4603;
+            color: #fff;
+            padding: 3px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #f2f2f2;
+            padding: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+        }
+
+        .right-menu a {
+            margin-left: 15px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        #cart-items {
+            max-height: 450px;
+            overflow-y: auto;
+        }
+
+        .remove-item {
+            color: red;
+            cursor: pointer;
+            margin-right: 8px; 
+        }
+
+        .remove-item:hover {
+            text-decoration: underline;
+        }
+
+        #cart {
+            border: 0px solid #ccc;
+            padding: 10px;
+            max-width: 300px;
+            position: fixed;
+            top: 160px; 
+            right: -300px;
+            transition: right 0.3s ease-in-out;
+        }
+
+        #cart.cart-open {
+            right: 0;
+        }
+
+        #cart-icon {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            margin: 0 auto;
+            width: 80%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product {
+            margin-bottom: 20px;
+            overflow: hidden;
+            width: 90%;
+        }
+
+        .sidebar {
+            top: 155;
+            width: 0%;
+            padding: 10px;
+            background-color: #f2f2f2;
+            left: 100;
+            bottom: 100;
+            height: 70%;
+        }
+
+        .card {
+            width: 16rem;
+            margin: 0 auto;
+            border: 0px solid #ccc; 
+            border-radius: 1px;
+            margin-bottom: 20px;
+            box-shadow: 2 4px 8px rgba(0, 177, 44, 0.1); 
+            transition: box-shadow 0.3s ease-in-out; 
+        }
+
+        .card:hover {
+            box-shadow: 0px 15px 15px rgba(2, 104, 28, 0.2); 
+        }
+
+        
+        .card button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px; 
+        }
+
+        
+
+
+        .card-img-top {
+            width: 100%;
+            height: auto;
+        }
+
+        .card-body {
+            text-align: center;
+        }
+
+        .remove-item-btn {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .remove-item-btn:hover {
+            background-color: #bd2130;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 5px;
+            width: 200px;
+        }
+
+        .search-bar button {
+            background-color: #187a41;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background-color: #567e62;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 5px;
+            width: 200px;
+        }
+            
+        .card h5 {
+            color: rgb(65, 67, 65);
+            text-decoration: line-through;
+        }
+
+        .card h4 {
+        color: green;
+        }
+
+        .buy-now-btn {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    .buy-now-btn:hover {
+        background-color: #45a049;
+    }
+
+        
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Our Products</h1>
+    </header>
+
+    <nav>
+        <div class="container">
+           
+
+            <div class="category-dropdown">
+                <select id="categoryFilter" onchange="filterProducts()">
+                    <option value="all">All Agroforestry Products</option>
+                    <option value="category8">Plants</option>
+                    <option value="category1">Fruit Products</option>
+                    <option value="category2">Nut Products</option>
+                    <option value="category3">Medicinal Plant Products</option>
+                    <option value="category4">Spices and Herbs</option>
+                    <option value="category5">Rubber Products</option>
+                    <option value="category6">Bamboo Products</option>
+                    <option value="category7">Oilseed Products</option>
+                </select>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" id="containerIdInput" placeholder="Search......" oninput="searchProductsByContainerId()">
+                <button type="submit">Search</button>
+            </div>
+            
+            
+
+            <div class="right-menu">
+                <a href="./create_account-temp.html" style="color: black;">
+                    <i class="fas fa-user"></i> Login
+                </a>
+                <a href="#" onclick="toggleCart()" style="color: rgb(0, 0, 0); font-weight: bold; font-family: 'Times New Roman', cursive;">🛒Cart</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+       
+
+        <div class="product" id="productList">
+            <table>
+                <tr>
+                    <!-- Product Card 1 -->
+                    <td>
+                        <div class="card" data-category="category1" id="guava">
+                            <img src="../image/guava.jpg" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>🍈 Guava 250g</center></p>
+                                <h5 class="p1">Rs.140.00</h5>
+                                <h4 class="n1">Rs.130.50</h4>
+                                <input type="number" id="quantityInputGuava" placeholder="Quantity" min="1" >
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Guava', 130.50, document.getElementById('quantityInputGuava').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                        
+                    </td>
+                    &nbsp&nbsp
+                    <!-- Product Card 2 -->
+                    <td>
+                        <div class="card" data-category="category2" id="cashews">
+                            <img src="../image/cashews.webp" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>🌰Cashews 20g</center></p>
+                                <h5 class="p1">Rs.475.00</h5>
+                                <h4 class="n1">Rs.350.50</h4>
+                                <input type="number" id="quantityInputCashews" placeholder="Quantity" min="1">
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Cashews', 350.50, document.getElementById('quantityInputCashews').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                    <!-- Product Card 3 -->
+                    <td>
+                        <div class="card" data-category="category8" id="cinnemon">
+                            <img src="../image/Cinnamon Plants.webp" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>🍃Cinnamon Plants</center></p>
+                                <h5 class="p1">Rs.200.00</h5>
+                                <h4 class="n1">Rs.150.00</h4>
+                                <input type="number" id="quantityInputCinnamonp" placeholder="Quantity" min="1" >
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Cinnamon Plant', 150.00, document.getElementById('quantityInputCinnamonp').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>                          
+                             </div>
+                        </div>
+                    </td>
+                    <!-- Product Card 4 -->
+                    <td>
+                        <div class="card" data-category="category3" id="aloe">
+                            <img src="../image/Aloe Vera Gel.webp" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>🌿Aloe Vera Gel</center></p>
+                                <h5 class="p1">Rs.2000.00</h5>
+                                <h4 class="n1">Rs.1700.50</h4>
+                                <input type="number" id="quantityInputAloe" placeholder="Quantity" min="1">
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Aloe Vera Gel', 1700.50, document.getElementById('quantityInputAloe').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>                          </div>
+                        </div>
+                    </td>
+                    
+                </tr><br><br><br>
+                <tr>
+                    <!-- Product Card 5 -->
+                    <td>
+                        <div class="card" data-category="category4" id="cinnamon">
+                            <img src="../image/cinnamon stik.jpg" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>🌰Cinnamon 100g</center></p>
+                                <h5 class="p1">Rs.475.00</h5>
+                                <h4 class="n1">Rs.400.00</h4>
+                                <input type="number" id="quantityInputCinnamon" placeholder="Quantity" min="1" >
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Cinnamon',400.00, document.getElementById('quantityInputCinnamon').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>                     
+                                 </div>
+                        </div>
+                    </td>
+                    <!-- Product Card 6 -->
+                    <td>
+                        <div class="card" data-category="category5" id="rubber">
+                            <img src="../image/Natural rubber sheets.jpg" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>Natural rubber sheets</center></p>
+                                <h5 class="p1">Rs.1200.00</h5>
+                                <h4 class="n1">Rs.1000.50</h4>
+                                <input type="number" id="quantityInputrubber" placeholder="Quantity" min="1" >
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('rubber sheets', 1000.50, document.getElementById('quantityInputrubber').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>                   
+                                    </div>
+                        </div>
+                    </td>
+                    <!-- Product Card 7 -->
+
+                    <td>
+                        <div class="card" data-category="category6" id="bamboo">
+                            <img src="../image/bamboo stick.webp" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>100 Pack Wood Bamboo Sticks</center></p>
+                                <h5 class="p1">Rs.4200.00</h5>
+                                <h4 class="n1">Rs.3800.50</h4>
+                                <input type="number" id="quantityInputbamboo" placeholder="Quantity" min="1" >
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Bamboo Sticks', 3800.50, document.getElementById('quantityInputbamboo').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>                   
+                                    </div>
+                        </div>
+                    </td>
+                                        <!-- Product Card 8 -->
+
+                    <td>
+                        <div class="card" data-category="category7" id="palm">
+                            <img src="../image/Palm oil.png" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>🌰 Palm oil 750 ml</center></p>
+                                <h5 class="p1">Rs.2000.00</h5>
+                                <h4 class="n1">Rs.1750.50</h4>
+                                <input type="number" id="quantityInputpalm" placeholder="Quantity" min="1" >
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Palm oil', 1750.50, document.getElementById('quantityInputpalm').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>                   
+                                    </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- Product Card 9 -->
+                    <td>
+                        <div class="card" data-category="category1" id="mango">
+                            <img src="../image/mango.jpg" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>Mango 250g</center></p>
+                                <h5 class="p1">Rs.140.00</h5>
+                                <h4 class="n1">Rs.130.50</h4>
+                                <input type="number" id="quantityInputmango" placeholder="Quantity" min="1" >
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Mango', 130.50, document.getElementById('quantityInputmango').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                        
+                    </td>
+                    &nbsp&nbsp
+                    <!-- Product Card 10 -->
+                    <td>
+                        <div class="card" data-category="category2" id="kithul">
+                            <img src="../image/Kithul Nuts.jpg" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>🍈Kithul Nuts 250g</center></p>
+                                <h5 class="p1">Rs.1475.00</h5>
+                                <h4 class="n1">Rs.1350.50</h4>
+                                <input type="number" id="quantityInputkithul" placeholder="Quantity" min="1">
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Kithul Nuts', 1350.50, document.getElementById('quantityInputkithul').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                    <!-- Product Card 11 -->
+                    <td>
+                        <div class="card" data-category="category8" id="coconut">
+                            <img src="../image/Coconut Plants.webp" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>🥥 Coconut Plants</center></p>
+                                <h5 class="p1">Rs.3000.00</h5>
+                                <h4 class="n1">Rs.2750.00</h4>
+                                <input type="number" id="quantityInputcoconut" placeholder="Quantity" min="1" >
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Coconut Plants', 2750.00, document.getElementById('quantityInputcoconut').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>                          
+                             </div>
+                        </div>
+                    </td>
+                    <!-- Product Card 12 -->
+                    <td>
+                        <div class="card" data-category="category3" id="tea">
+                            <img src="../image/Detox Tea.jpg" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>🍃 Sri Lankan Lemongrass Detox Tea</center></p>
+                                <h5 class="p1">Rs.4500.00</h5>
+                                <h4 class="n1">Rs.4000.50</h4>
+                                <input type="number" id="quantityInputtea" placeholder="Quantity" min="1">
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Detox Tea', 4000.50, document.getElementById('quantityInputtea').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>                          </div>
+                        </div>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <!-- Product Card 13 -->
+                    <td>
+                        <div class="card" data-category="category4" id="papper">
+                            <img src="../image/Pepper.jpg" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>🌶️Pepper 100g</center></p>
+                                <h5 class="p1">Rs.200.00</h5>
+                                <h4 class="n1">Rs.150.00</h4>
+                                <input type="number" id="quantityInputpapper" placeholder="Quantity" min="1" >
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Pepper', 150.00, document.getElementById('quantityInputpapper').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                        
+                    </td>
+                    &nbsp&nbsp
+                    <!-- Product Card 14 -->
+                    <td>
+                        <div class="card" data-category="category2" id="almond">
+                            <img src="../image/Almonds.webp" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>Almonds 20g</center></p>
+                                <h5 class="p1">Rs.475.00</h5>
+                                <h4 class="n1">Rs.300.00</h4>
+                                <input type="number" id="quantityInputalmond" placeholder="Quantity" min="1">
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Almonds', 300.00, document.getElementById('quantityInputalmond').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                    <!-- Product Card 15 -->
+                    <td>
+                        <div class="card" data-category="category8" id="tea">
+                            <img src="../image/tea plant.webp" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>Tea Plants</center></p>
+                                <h5 class="p1">Rs.200.00</h5>
+                                <h4 class="n1">Rs.150.00</h4>
+                                <input type="number" id="quantityInputteap" placeholder="Quantity" min="1" >
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Tea Plant', 150.00, document.getElementById('quantityInputteap').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>                          
+                             </div>
+                        </div>
+                    </td>
+                    <!-- Product Card 16 -->
+                    <td>
+                        <div class="card" data-category="category3" id="coconut">
+                            <img src="../image/cocunut oil.jpeg" class="card-img-top" alt="..." height="285">
+                            <div class="card-body">
+                                <p class="card-text"><center>Coconut Oil 375ml</center></p>
+                                <h5 class="p1">Rs.600.00</h5>
+                                <h4 class="n1">Rs.590.00</h4>
+                                <input type="number" id="quantityInputcoconut" placeholder="Quantity" min="1">
+                                <button type="button" class="product-card-button-add btn btn-primary btn-block"
+                                        onclick="addToCart('Coconut oil', 590.00, document.getElementById('quantityInputcoconut').value)">
+                                    <i class="fas fa-shopping-cart"></i>Add to Cart
+                                </button>                          </div>
+                        </div>
+                    </td>
+                    
+                </tr>
+            </table>
+            <footer>
+                <div class="container">
+                    <p><center>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&copy; Eco Leaf Plantation. All rights reserved.</center></p>
+                </div>
+            </footer>
+        </div>
+        
+        
+
+    <div class="right-side">
+        <div id="cart">
+            <h2>Shopping Cart&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</h2><br>
+            <div id="cart-items"></div>
+            <p>Total: Rs.<span id="cart-total">0.00</span></p>
+            <button onclick="buyNow()" class="buy-now-btn">Buy Now</button>
+        </div>
+    </div>
+
+    <script>
+        const cart = [];
+
+    
+
+
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartTotalElement = document.getElementById('cart-total');
+
+    cartItemsContainer.innerHTML = '';
+
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        const cartItemElement = document.createElement('div');
+        cartItemElement.classList.add('cart-item');
+        cartItemElement.innerHTML = `<span>${item.name}</span>&nbsp&nbsp&nbsp
+             <span>&nbspQty: ${item.quantity}</span>&nbsp&nbsp&nbsp
+             <span>&nbspRs. ${item.price.toFixed(2)}</span> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+             <button class="remove-item-btn" onclick="removeItem(${index})">Remove</button>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp`;
+        cartItemsContainer.appendChild(cartItemElement);
+
+        total += item.price * item.quantity;
+    });
+
+    cartTotalElement.textContent = total.toFixed(2);
+}
+
+        function toggleCart() {
+            const cartElement = document.getElementById('cart');
+            cartElement.classList.toggle('cart-open');
+        }
+
+        function filterProducts() {
+    const categoryFilter = document.getElementById('categoryFilter');
+    const selectedCategory = categoryFilter.value.toLowerCase();
+
+    const productCards = document.querySelectorAll('.card');
+
+    productCards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category').toLowerCase();
+
+        if (selectedCategory === 'all' || selectedCategory === cardCategory) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+function searchProductsByContainerId() {
+        const containerIdInput = document.getElementById('containerIdInput');
+        const searchTerm = containerIdInput.value.toLowerCase();
+        const productCards = document.querySelectorAll('.card');
+
+        productCards.forEach(card => {
+            const cardContainerId = card.id.toLowerCase();
+
+            if (cardContainerId.includes(searchTerm)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+
+    function buyNow() {
+    const formData = new FormData();
+    const total = calculateTotal(); 
+
+    formData.append('orderDetails', JSON.stringify(cart));
+    formData.append('total', total);
+
+    fetch('../PHP/order.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        if (data.includes('Order placed successfully')) {
+            window.location.href = 'create_account-temp.html';
+        } else {
+            console.error('Order placement failed:', data);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+
+    cart.length = 0;
+    updateCartDisplay();
+}
+
+
+
+
+function calculateTotal() {
+    let total = 0;
+    cart.forEach(item => {
+        total += item.price * item.quantity;
+    });
+    return total;
+}
+
+
+function checkQuantity(productName, requestedQuantity, callback) {
+    fetch('../PHP/check_quantity.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'productName=' + encodeURIComponent(productName) + '&requestedQuantity=' + encodeURIComponent(requestedQuantity),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            callback(true, `Quantity available for ${productName}: ${data.quantity}`);
+        } else {
+            callback(false, data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        callback(false, 'Error checking quantity');
+    });
+}
+
+function addToCart(productName, price, quantity) {
+    checkQuantity(productName, quantity, (success, message) => {
+        if (success) {
+            cart.push({
+                name: productName,
+                price: price,
+                quantity: quantity
+            });
+            updateCartDisplay();
+        } else {
+            alert(`Unable to add ${productName} to cart.\nEnough Quantity.....!`);
+
+        }
+    });
+}
+
+
+
+
+    </script>
+    <br><br>
+    
+</body>
+
+</html>

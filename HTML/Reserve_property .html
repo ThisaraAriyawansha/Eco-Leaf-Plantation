@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="../CSS/Reserve_property.css">
+
+</head>
+<body>
+  <div class="property-card">
+    <img src="property1.jpg" alt="Property 1">
+    <h3>Property 1</h3>
+    <p>Location: City A</p>
+    <p>Price: $200,000</p>
+    <button class="reserve-button" onclick="reserveProperty('Property 1')">Reserve Property</button>
+  </div>
+
+  <div class="property-card">
+    <img src="property2.jpg" alt="Property 2">
+    <h3>Property 2</h3>
+    <p>Location: City B</p>
+    <p>Price: $250,000</p>
+    <button class="reserve-button" onclick="reserveProperty('Property 2')">Reserve Property</button>
+  </div>
+
+  <div id="reservation-status"></div>
+
+  <script>
+    // Function to reserve a property
+    function reserveProperty(propertyName) {
+      const statusElement = document.getElementById("reservation-status");
+      statusElement.textContent = `Reserved: ${propertyName}`;
+    }
+  </script>
+</body>
+</html>

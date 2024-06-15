@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Display Data</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
+</head>
+<body>
+
+  <h2><center>Contract Requests</center></h2>
+
+  <div id="table-container"></div>
+
+  <script>
+    // Function to fetch and display data using AJAX
+    function fetchData() {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          document.getElementById("table-container").innerHTML = xhr.responseText;
+        }
+      };
+      xhr.open("GET", "fetch_data.php", true);
+      xhr.send();
+    }
+
+    // Function to handle row approval
+    function approveRow(rowId) {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          // Redirect to give_contract.html with the approved contract ID
+          window.location.href = "give_contract.php?contractId=" + rowId;
+        }
+      };
+      xhr.open("GET", "approve_row.php?id=" + rowId, true);
+      xhr.send();
+    }
+
+    // Function to handle row cancellation
+    function cancelRow(rowId) {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          // Display success message
+          alert("Row canceled successfully!");
+          // Refresh the table
+          fetchData();
+        }
+      };
+      xhr.open("GET", "cancel_row.php?id=" + rowId, true);
+      xhr.send();
+    }
+
+    // Initial load of data
+    fetchData();
+  </script>
+
+</body>
+</html>

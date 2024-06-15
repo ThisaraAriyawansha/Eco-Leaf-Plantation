@@ -1,0 +1,196 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/create_account.css">
+    <title>Login & Registration</title>
+</head>
+<body>
+    <div class="wrapper">
+        <nav class="nav">
+            <div class="nav-logo">
+                <p>Eco Leaf Plantation</p>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="#" class="link active"></a></li>
+                   
+                </ul>
+            </div>
+            <div class="nav-button">
+                <button class="btn white-btn" id="loginBtn" onclick="showLogin()">Login</button>
+                <button class="btn" id="registerBtn" onclick="showRegister()">Sign Up</button>
+            </div>
+            <div class="nav-menu-btn">
+                <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+            </div>
+        </nav>
+        <div class="form-box">
+            <div class="login-container" id="loginForm">
+                <div class="top">
+                    <span>Don't have an account? <a href="#" onclick="showRegister()">Sign Up</a></span>
+                    <header>Login</header>
+                </div>
+                <div class="input-box">
+                    <input type="text" class="input-field" placeholder="Username" id="loginUsername"><br><br>
+                    <i class="bx bx-user"></i>
+                </div>
+                <div class="input-box">
+                    <input type="password" class="input-field" placeholder="Password" autocomplete="new-password" autofill="off" id="loginPassword"><br><br>
+                    <i class="bx bx-lock-alt"></i>
+                </div>
+                <div class="input-box">
+                    <input type="submit" class="submit" value="Login" onclick="performLogin()">
+                </div>
+                <div class="two-col">
+                    <div class="one">
+                        <input type="checkbox" id="login-check">
+                        <label for="login-check"> Remember Me</label>
+                    </div>
+                    <div class="two">
+                        <label><a href="#" onclick="showRegister()">Forgot password?</a></label>
+                    </div>
+                </div>
+            </div>
+            
+            <form action="../PHP/singup.php" method="post" class="register-container" id="registerForm" onsubmit="return validateRegistrationForm()">
+                <header>Sign Up</header>
+                <div class="input-box">
+                    <input type="text" class="input-field" placeholder="Username" name="username" id="regUsername"><br><br>
+                    <i class="bx bx-user"></i>
+                </div>
+                <div class="input-box">
+                    <input type="text" class="input-field" placeholder="Email" name="email" id="regEmail"><br><br>
+                    <i class="bx bx-envelope"></i>
+                </div>
+                <div class="input-box">
+                    <input type="password" class="input-field" placeholder="Password" name="password" autocomplete="new-password" autofill="off" id="regPassword"><br><br>
+                    <i class="bx bx-lock-alt"></i>
+                </div>
+                <div class="input-box">
+                    <input type="text" class="input-field" placeholder="Phone" name="phone" id="regPhone"><br><br>
+                    <i class="bx bx-envelope"></i>
+                </div>
+                <div class="input-box">
+                    <input type="submit" class="submit" value="Register"><br><br>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function myMenuFunction() {
+            var i = document.getElementById("navMenu");
+            if (i.className === "nav-menu") {
+                i.className += " responsive";
+            } else {
+                i.className = "nav-menu";
+            }
+        }
+
+        function showLogin() {
+            var loginForm = document.getElementById("loginForm");
+            var registerForm = document.getElementById("registerForm");
+            
+            loginForm.style.left = "4px";
+            registerForm.style.right = "-520px";
+            
+            document.getElementById("loginBtn").className += " white-btn";
+            document.getElementById("registerBtn").className = "btn";
+            
+            loginForm.style.opacity = 1;
+            registerForm.style.opacity = 0;
+        }
+
+        function showRegister() {
+            var loginForm = document.getElementById("loginForm");
+            var registerForm = document.getElementById("registerForm");
+
+            loginForm.style.left = "-510px";
+            registerForm.style.right = "5px";
+
+            document.getElementById("loginBtn").className = "btn";
+            document.getElementById("registerBtn").className += " white-btn";
+
+            loginForm.style.opacity = 0;
+            registerForm.style.opacity = 1;
+        }
+
+        function clearPasswordField() {
+            var passwordField = document.getElementById("regPassword");
+            if (passwordField) {
+                passwordField.value = "";
+            }
+        }
+
+        window.onload = clearPasswordField;
+
+        function validatePhoneNumber(phoneNumber) {
+            var phoneRegex = /^[0-9]{10}$/;
+            return phoneRegex.test(phoneNumber);
+        }
+
+        function validateRegistrationForm() {
+            var username = document.getElementById("regUsername").value;
+            var email = document.getElementById("regEmail").value;
+            var password = document.getElementById("regPassword").value;
+            var phone = document.getElementById("regPhone").value;
+
+            if (username.trim() === "" || email.trim() === "" || password.trim() === "" || phone.trim() === "") {
+                alert("All fields are required for registration.");
+                return false;
+            }
+
+            if (!validatePhoneNumber(phone)) {
+                alert("Please enter a valid 10-digit phone number.");
+                return false;
+            }
+
+
+            return true;
+        }
+
+ 
+
+        async function performLogin() {
+    var username = document.getElementById("loginUsername").value;
+    var password = document.getElementById("loginPassword").value;
+
+    if (username.trim() === "" || password.trim() === "") {
+        alert("Username and password are required for login.");
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('password', password);
+
+        const response = await fetch('../PHP/login.php', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const data = await response.json();
+        console.log(data); 
+
+        if (data.success) {
+            alert("Login successful!");
+            window.location.href = '../PHP/finalbill.php';
+        } else {
+            alert("Invalid username or password.");
+        }
+    } catch (error) {
+        console.error('Error during login:', error);
+        alert("An error occurred during login. Please try again later.");
+    }
+
+
+    return true;
+}
+
+    </script>
+</body>
+</html>

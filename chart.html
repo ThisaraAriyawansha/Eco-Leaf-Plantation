@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humidity & Temperature</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="lineChart" width="400" height="200"></canvas>
+
+    <script>
+        fetch('chart.php')
+            .then(response => response.json())
+            .then(data => {
+                const humidityValues = data.map(item => item.humidity);
+                const temperatureValues = data.map(item => item.temperature);
+                const timestampValues = data.map(item => item.timestamp);
+
+                const ctx = document.getElementById('lineChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: timestampValues, 
+                        datasets: [{
+                            label: 'Humidity',
+                            data: humidityValues,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 3,
+                            fill: false
+                        },
+                        {
+                            label: 'Temperature ',
+                            data: temperatureValues,
+                            borderColor: 'rgba(255, 99, 132, 1)', 
+                            borderWidth: 3,
+                            fill: false
+                        }]
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>

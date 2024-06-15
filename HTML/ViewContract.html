@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract Details</title>
+</head>
+<body>
+    <h1>Contract Details</h1>
+    
+    <label for="contractId">Contract ID:</label>
+    <input type="text" id="contractId">
+    <button onclick="viewContract()">View</button>
+
+    <div id="contractDetails"></div>
+
+    <script>
+        function viewContract() {
+            // Get the contract ID from the input field
+            var contractId = document.getElementById("contractId").value;
+
+            // Make a request to fetch contract details (you may replace this with your server-side logic)
+            // For simplicity, let's assume we are fetching details from a JSON file
+            fetch(`contract_details.json?id=${contractId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Display contract details
+                    displayContractDetails(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching contract details:', error);
+                });
+        }
+
+        function displayContractDetails(contractDetails) {
+            // Display contract details in the contractDetails div
+            var detailsDiv = document.getElementById("contractDetails");
+            detailsDiv.innerHTML = `<h2>Contract Details</h2>
+                                    <p>Contract ID: ${contractDetails.id}</p>
+                                    <p>Client: ${contractDetails.client}</p>
+                                    <p>Amount: ${contractDetails.amount}</p>
+                                    <!-- Add more details as needed -->`;
+        }
+    </script>
+</body>
+</html>

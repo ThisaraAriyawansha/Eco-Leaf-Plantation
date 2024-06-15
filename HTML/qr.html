@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            min-height: 100vh;
+            background-color: #f8f8f8;
+        }
+
+        .container {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            border: 1.5px solid #b2b2b2;
+            border-radius: 0.25em;
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.25);
+            max-width: 600px;
+            height: 600px;
+            margin: 5px;
+        }
+
+        .container h1 {
+            color: #000;
+        }
+
+        #my-qr-reader {
+            width: 400px;
+            height: 400px;
+            padding: 20px !important;
+            border: 1.5px solid #b2b2b2 !important;
+            border-radius: 1px;
+            margin-top: 20px;
+        }
+
+        .left-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .left-side form {
+            text-align: left;
+            max-width: 300px;
+            margin-top: 20px;
+        }
+
+        .left-side label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .left-side input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        form {
+    margin: 30px;
+}
+
+        label {
+            display: inline-block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+            font-family: 'Times New Roman', Times, serif; 
+            text-align: left;
+            width: 30%;
+            font-size: 25px;
+        }
+
+        input {
+            display: inline-block;
+            width: 65%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            width: 96%;
+            margin-top: 10px; 
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button-container button {
+            padding: 10px;
+            width: 48%; 
+            font-size: 16px;
+        }
+
+    </style>
+    <title>QR Code Scanner</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+        function domReady(fn) {
+            if (document.readyState === "complete" || document.readyState === "interactive") {
+                setTimeout(fn, 1000);
+            } else {
+                document.addEventListener("DOMContentLoaded", fn);
+            }
+        }
+        function onCheckIn() {
+            var qrCodeNumberValue = document.getElementById("qrCodeNumber").value;
+
+            if (qrCodeNumberValue.trim() !== "") {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "../PHP/updateCheckOutData.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        alert(xhr.responseText);
+                    }
+                };
+
+                var data = "qrCodeNumber=" + encodeURIComponent(qrCodeNumberValue);
+                xhr.send(data);
+} else {
+    alert("Please scan a QR code first!");
+}
+        }
+
+        function onCheckOut() {
+            var qrCodeNumberValue = document.getElementById("qrCodeNumber").value;
+
+                if (qrCodeNumberValue.trim() !== "") {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "../PHP/insertCheckInData.php", true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            alert(xhr.responseText);
+                        }
+                    };
+
+                    var data = "qrCodeNumber=" + encodeURIComponent(qrCodeNumberValue);
+                    xhr.send(data);
+                } else {
+                    alert("Please scan a QR code first!");
+                }
+        }
+
+        function navigateToControlPanel() {
+            window.location.href = 'http://192.168.137.85/';
+        }
+        domReady(function () {
+          
+            function onScanSuccess(decodeText, decodeResult) {
+                
+                
+                document.getElementById("qrCodeNumber").value = decodeText;
+                alert("QR code successfully scanned! Number field updated.");
+            }
+
+            let htmlscanner = new Html5QrcodeScanner(
+                "my-qr-reader", {
+                    fps: 10,
+                    qrbos: 250
+                }
+            );
+            htmlscanner.render(onScanSuccess);
+        });
+    </script>
+</head>
+
+<body>
+    
+    <form>
+        <img src="../image/logo-1.png" alt="Company Logo" style="height: 100px; width:100px;"><br><br>
+        
+     <label for="qrCodeNumber">Number:</label>
+        <input type="text" id="qrCodeNumber" placeholder="Auto Filling this..." required>
+
+        <input type="submit" value="Submit">
+        <div class="button-container">
+            <button type="button" onclick="onCheckIn()">Check In</button>&nbsp&nbsp&nbsp
+            <button type="button" onclick="onCheckOut()">Check Out</button>&nbsp&nbsp&nbsp
+            <button type="button" onclick="navigateToControlPanel()">Control Panel</button>
+        </div>
+    </form>
+
+    <div class="left-side">
+        
+    </div>
+
+    <div class="container">
+        <h1>Scan here..</h1>
+        <center><div id="my-qr-reader"></div></center>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

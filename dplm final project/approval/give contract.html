@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Give Contract</title>
+  <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+
+  
+
+  <form action="update_contract.php" method="post">
+    <h2>Create Contract </h2><br>
+    <label for="contractId">Contract ID:</label>
+    <input type="text" id="contractId" name="contractId" >
+    <label for="productName">Select Product:</label>
+    <select id="product" name="product">
+      <!-- Add options dynamically or fetch from the database -->
+      <option value="product1">Product 1</option>
+      <option value="product2">Product 2</option>
+      <!-- Add more options as needed -->
+    </select>
+
+    <label for="quantity">Quantity:</label>
+    <input type="text" id="quantity" name="quantity" required>
+
+    <input type="submit" value="Submit">
+  </form>
+
+</body>
+</html>
